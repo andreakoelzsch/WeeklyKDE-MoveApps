@@ -1,5 +1,5 @@
-# Estimate weekly KDE ranges*
-Github repository: *github.com/yourAccount/Name-of-App* *(the link to the repository where the code of the app can be found must be provided)*
+# Estimate weekly KDE ranges
+Github repository: https://github.com/vee-jain/WeeklyKDE-MoveApps
 
 ## Description
 Calculate KDE ranges at weekly intervals for your animals. Obtain the outputs of maps detailing their movements and plots showing changes in movement through time, with a focus on your animals' movements in the last week of the specified tracking period.
