@@ -1,7 +1,4 @@
-# Name of App *(Give your app a short and informative title. Please adhere to our convention of Title Case without hyphens (e.g. My New App))*
-
-Estimate weekly KDE ranges
-
+# Estimate weekly KDE ranges*
 Github repository: *github.com/yourAccount/Name-of-App* *(the link to the repository where the code of the app can be found must be provided)*
 
 ## Description
