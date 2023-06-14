@@ -31,8 +31,8 @@ rFunction = function(data) {
                            id = individual.local.identifier,
                            crs = 4326)
   
-  #export as csv
-  write.csv(data_track, "data_track.csv")
+  #output 1: export as csv
+  write.csv(data_track, file = appArtifactPath("data_track.csv"), row.names = FALSE)
   
   #prepare dataframe of tracks per id
   id_track_list <- data_track %>% 
@@ -59,8 +59,9 @@ rFunction = function(data) {
   
   plots <- lapply(id_track_list$info, plot_fun)
   
+  #output 2: individual html map plots
   for (i in seq_along(plots)){
-    mapshot(plots[[i]], url = paste0(getwd(),"/map", id_track_list$id[[i]], ".html"))
+    mapshot(plots[[i]], appArtifactPath(paste0("map", id_track_list$id[[i]], ".html")))
   }
 
   # MAKING WEEKLY TRACK SEGMENTS  
@@ -88,14 +89,14 @@ rFunction = function(data) {
       tac = as.numeric(map(track_list$info, possibly(tac,otherwise = NA))), #turning angle correlation
     ) 
   
-  #export metrics as csv
+  #output 3: export metrics as csv
   track_list_df <- track_list %>% select(-info)
-  write.csv(track_list_df, "track_list_df.csv")
+  write.csv(track_list_df, file = appArtifactPath("track_list_df.csv"), row.names = FALSE)
   
   #melt dataframe to plot with all metrics
   track_list_melt <- melt(track_list, na.rm = TRUE, id = c("id", "week","info"))
   
-  #export plots into PDF
+  #output 4: export metric plots into PDF
   metric_plts <- track_list_melt %>% 
     split(.$id) %>% 
     map(~ggplot(data = .x, 
@@ -108,7 +109,7 @@ rFunction = function(data) {
           theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)),
         legend.position = "none")
   
-  pdf("metric_plots.pdf",onefile = TRUE)
+  pdf(appArtifactPath("metric_plots.pdf"),onefile = TRUE)
   walk(metric_plts, print)
   dev.off()
   
@@ -132,7 +133,8 @@ rFunction = function(data) {
     mutate(hr = map(hr_kde, possibly(hr_area, otherwise = NA))) %>%
     unnest(hr) %>% na.omit() %>% filter(level == 0.95)
   
-  pdf(paste("hr_plot.pdf"))
+  #output 5: export KDE plots per ID and week
+  pdf(appArtifactPath(paste("hr_plot.pdf")))
   for(i in 1:nrow(hr_check)){
     plot(hr_ud(hr_check$hr_kde[[i]]))
     plot(hr_check$hr_kde[[i]],  add.relocations = TRUE, add = TRUE)
@@ -157,13 +159,14 @@ rFunction = function(data) {
           theme_minimal()+
           labs(color = "KDE") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)))
   
-  pdf("hr_time_plots.pdf",onefile = TRUE)
+  #output 6: export KDE by week
+  pdf(appArtifactPath("hr_time_plots.pdf"),onefile = TRUE)
   walk(hr_time_plts, print)
   dev.off()
   
-  #export hr data as csv
+  #output 7: export hr data as csv
   hr_df <- hr_all %>% select(-c(info, hr_kde, row))
-  write.csv(hr_df, "hr_df.csv")
+  write.csv(hr_df, file = appArtifactPath("hr_df.csv"), row.names = FALSE)
   
   # WHAT TIME ARE BIRDS IN CORE AREA?
   #extract isopleths (polygons)
@@ -192,9 +195,9 @@ rFunction = function(data) {
   last_week_pts <- dplyr::bind_rows(list(last_week_pts_list$info), .id = 'source')
   last_week_pts_final <- merge(last_week_pts_list, last_week_pts, by = "source")
   
-  #export last week points as csv
+  #output 8: export last week points as csv
   last_week_pts_final_df <- last_week_pts_final %>% select(-c(info, hr_kde, isopleth))
-  write.csv(last_week_pts_final_df, "last_week_pts_df.csv")
+  write.csv(last_week_pts_final_df, file = appArtifactPath("last_week_pts_df.csv"),row.names = FALSE)
   
   #plot last week .50 and .95 and points as html map
   col <- brewer.pal(8, "Spectral") 
@@ -213,7 +216,8 @@ rFunction = function(data) {
                      popup = ~paste0(id," ",t_),
                      color = ~pal(as.numeric(as.factor(last_week_pts_final$id))))
   
-  mapshot(last_week_plot, url = paste0(getwd(),"/map", "_last_week_plot.html"))
+  #output 9: export last week plot
+  mapshot(last_week_plot, url = appArtifactPath(paste0("map", "_last_week_plot.html")))
   
   #intersecting last week core area with datapoints for respective individuals
   core_area <- last_week %>% filter(level == 0.50)
@@ -241,9 +245,9 @@ rFunction = function(data) {
     filter(location == 1) %>%
     mutate(time = as.numeric(format(t_, "%H")))
   
-  #export points in core as csv
+  #output 10: export points in core as csv
   time_in_core_df <- time_in_core %>% select(-c(row, hr_kde, isopleth))
-  write.csv(time_in_core_df, "time_in_core.csv")
+  write.csv(time_in_core_df, file = appArtifactPath("time_in_core.csv"), row.names = FALSE)
   
   #plot weekly count of fixes in core by time as pdf
   wk_time_core_plts <- time_in_core %>% 
@@ -256,7 +260,8 @@ rFunction = function(data) {
           facet_wrap_paginate(~id, scales = "free", ncol = 1, nrow = 1)+
           theme_minimal())
   
-  pdf("wk_time_core_plots.pdf",onefile = TRUE)
+  #output 11: export weekly times in core
+  pdf(appArtifactPath("wk_time_core_plots.pdf"),onefile = TRUE)
   walk(wk_time_core_plts, print)
   dev.off()
   
@@ -271,7 +276,10 @@ rFunction = function(data) {
           facet_wrap_paginate(~id+date, scales = "free", ncol = 1, nrow = 1)+
           theme_minimal())
   
-  pdf("day_time_core_plots.pdf",onefile = TRUE)
+  #output 12: export daily times in core
+  pdf(appArtifactPath("day_time_core_plots.pdf"),onefile = TRUE)
   walk(day_time_core_plts, print)
   dev.off()
+  
+  return(data)
   }
