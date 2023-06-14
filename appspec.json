@@ -1,8 +1,5 @@
 {
-  "settings": [
-    {
-    }
-  ],
+  "settings": [],
  "dependencies": {
     "R": [
       {
@@ -59,17 +56,12 @@
         "author",
         "creator"
       ],
-      "orcid": 0000-0002-4809-9551,
+      "orcid": "0000-0002-4809-9551",
       "affiliation": "University of Vienna",
       "affiliationRor": null
     }
   ],
-  "funding": [
-    {
-      "name": null,
-      "comment": null
-    }
-  ],
+  "funding": [],
     "references": [
     {
       "type": "IsDescribedBy",
@@ -81,4 +73,3 @@
     "url": "https://github.com/vee-jain/WeeklyKDE-MoveApps/blob/main/README.md"
   }
 }
-
