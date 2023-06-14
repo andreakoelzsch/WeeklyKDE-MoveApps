@@ -1,21 +1,42 @@
 {
   "settings": [
     {
-      "id": "year",
-      "name": "The year.",
-      "description": "Insert description for the year setting setting",
-      "defaultValue": 2022,
-      "type": "INTEGER"
     }
   ],
-  "dependencies": {
+ "dependencies": {
     "R": [
       {
-        "name": "lubridate",
-        "version": "1.7.10"
+        "name": "move"
       },
       {
-        "name": "move"
+        "name": "lubridate"
+      },
+      {
+        "name": "amt"
+      },
+      {
+        "name": "purrr"
+      },
+      {
+        "name": "reshape2"
+      },
+      {
+        "name": "ggplot2"
+      },
+      {
+        "name": "ggforce"
+      },
+      {
+        "name": "leaflet"
+      },
+      {
+        "name": "RColorBrewer"
+      },
+      {
+        "name": "mapview"
+      },
+      {
+        "name": "sf"
       }
     ]
   },
@@ -25,39 +46,32 @@
   },
   "language": "eng",
   "keywords": [
-    "example",
-    "template"
+    "space use",
+    "KDE"
   ],
   "people": [
     {
-      "firstName": "Charles",
+      "firstName": "Varalika",
       "middleInitials": null,
-      "lastName": "Darwin",
-      "email": "creator@example.com",
+      "lastName": "Jain",
+      "email": "varalika.jain@univie.ac.at",
       "roles": [
         "author",
         "creator"
       ],
-      "orcid": null,
-      "affiliation": null,
+      "orcid": 0000-0002-4809-9551,
+      "affiliation": "University of Vienna",
       "affiliationRor": null
     }
   ],
   "funding": [
     {
-      "name": "funder name",
-      "comment": "grant for App"
-    }
-  ],
-  "references": [
-    {
-      "type": "IsDescribedBy",
-      "note": "Darwin, C. 1900. The creation. Journal XY. 1-2",
-      "url": "https://anylink.xyz"
+      "name": null,
+      "comment": null
     }
   ],
   "documentation": {
-    "url": "https://github.com/yourAccount/my-app/README.md"
+    "url": "https://github.com/vee-jain/WeeklyKDE-MoveApps/blob/main/README.md"
   }
 }
 
