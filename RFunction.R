@@ -60,9 +60,13 @@ rFunction = function(data) {
   plots <- lapply(id_track_list$info, plot_fun)
   
   #output 2: individual html map plots
+  wd <- getwd()
+  setwd(paste0(wd,"/data/output")) #to avoid folders being created in output, make a temporary change in working directory
+  
   for (i in seq_along(plots)){
-    mapshot(plots[[i]], appArtifactPath(paste0("map", id_track_list$id[[i]], ".html")))
+    mapshot(plots[[i]], url = paste0("map", id_track_list$id[[i]], ".html"))
   }
+  setwd(wd) #change back to original working directory
 
   # MAKING WEEKLY TRACK SEGMENTS  
   #get weekly intervals 
@@ -217,7 +221,10 @@ rFunction = function(data) {
                      color = ~pal(as.numeric(as.factor(last_week_pts_final$id))))
   
   #output 9: export last week plot
-  mapshot(last_week_plot, url = appArtifactPath(paste0("map", "_last_week_plot.html")))
+  wd <- getwd()
+  setwd(paste0(wd,"/data/output")) #avoid getting folders 
+  mapshot(last_week_plot, url = paste0("map", "_last_week_plot.html"))
+  setwd(wd) #revert back to original directory
   
   #intersecting last week core area with datapoints for respective individuals
   core_area <- last_week %>% filter(level == 0.50)
