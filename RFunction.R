@@ -9,6 +9,7 @@ library('leaflet')
 library('RColorBrewer')
 library('mapview')
 library('sf')
+library('zip')
 
 ## The parameter "data" is reserved for the data object passed on from the previous app
 
@@ -60,13 +61,14 @@ rFunction = function(data) {
   plots <- lapply(id_track_list$info, plot_fun)
   
   #output 2: individual html map plots
-  wd <- getwd()
-  setwd(paste0(wd,"/data/output")) #to avoid folders being created in output, make a temporary change in working directory
+  # Create a temporary directory
+  dir.create(targetDirHtmlFiles <- tempdir())
   
-  for (i in seq_along(plots)){
-    mapshot(plots[[i]], url = paste0("map", id_track_list$id[[i]], ".html"))
+  # Loop through plots and export each as an HTML file in the temporary directory
+  for (i in seq_along(plots)) {
+   mapshot(plots[[i]], url = file.path(targetDirHtmlFiles, paste0("map_", id_track_list$id[[i]], ".html")))
   }
-  setwd(wd) #change back to original working directory
+  #plots in temp directory will be exported into map_html_files.zip folder in output
 
   # MAKING WEEKLY TRACK SEGMENTS  
   #get weekly intervals 
@@ -221,10 +223,16 @@ rFunction = function(data) {
                      color = ~pal(as.numeric(as.factor(last_week_pts_final$id))))
   
   #output 9: export last week plot
-  wd <- getwd()
-  setwd(paste0(wd,"/data/output")) #avoid getting folders 
-  mapshot(last_week_plot, url = paste0("map", "_last_week_plot.html"))
-  setwd(wd) #revert back to original directory
+  #also exporting these plots into the temporary directory
+  mapshot(last_week_plot, url = file.path(targetDirHtmlFiles, paste0("map", "_last_week_plot.html")))
+  
+  # zip HTML files from temporary directory in output
+  zip_file <- appArtifactPath(paste0("map_html_files.zip"))
+  zip::zip(zip_file, 
+      files = list.files(targetDirHtmlFiles, full.names = TRUE,
+                                   pattern="^map_"),
+      mode = "cherry-pick")
+  #map_html_files.zip contains individual + last week maps
   
   #intersecting last week core area with datapoints for respective individuals
   core_area <- last_week %>% filter(level == 0.50)
