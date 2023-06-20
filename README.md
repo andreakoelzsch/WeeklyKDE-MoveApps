@@ -17,11 +17,11 @@ MoveStack in Movebank format
 MoveStack in Movebank format
 
 ### Artefacts
-(1)`data_track.csv` and (2)`map-id.html`: tracking data (csv + leaflet-map-based plots of individuals); 
+(1)`data_track.csv` and (2)specific `map-id.html` in `map_html_files.zip`: tracking data (csv + leaflet-map-based html plots of individuals); 
 (3)`track_list_df.csv` and (4)`metric_plots.pdf`: trends of seven movement metrics by week (csv + plots per individual); 
 (5)`hr_plot.pdf`, (6)`hr_time_plots` and (7)`hr_df.csv`: weekly 0.50 and 0.95 KDE estimates (plots per individual and week + plots of KDE by week + csv);
 (8)`last_week_pts_df.csv`: from the tracking period, the last week data points overall (csv) 
-(9)`map_last_week_plot.html`: last week data points intersected with KDE estimates (leaflet-map-based plot)
+(9)`map_last_week_plot.html` in `map_html_files.zip`: last week data points intersected with KDE estimates (leaflet-map-based html plot)
 (10)`time_in_core.csv`: last week data points in 0.50 core areas (csv); 
 (11)`wk_time_core_plots.pdf` and (12)`day_time_core_plots.pdf`: histograms detailing the number of locations recorded at hours of the day in core areas per individual on a weekly and daily scale.
 
